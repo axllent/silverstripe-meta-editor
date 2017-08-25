@@ -1,5 +1,8 @@
 # SilverStripe Meta Editor Configuration
 
+To access the Meta Editor users should be granted CMS access to the 'Meta Editor' or have 'full
+administrative rights'. They do not require read or write access to the pages themselves.
+
 ```yaml
 Axllent\MetaEditor\MetaEditor:
   meta_title_field: "Title"
