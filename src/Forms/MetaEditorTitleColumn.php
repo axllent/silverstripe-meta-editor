@@ -95,7 +95,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
                 $title_field->addExtraClass('form-control');
                 return $title_field->Field() . $this->getErrorMessages();
             } else {
-                return '<span class="non-editable">Non-editable</span>';
+                return '<span class="non-editable">Meta tags not editable</span>';
             }
         }
     }
