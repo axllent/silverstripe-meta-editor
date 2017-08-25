@@ -27,6 +27,11 @@ for **SilverStripe 4**.
 - SilverStripe ^4
 
 
+## Configuration
+
+Please refer to the [Configuration docs](docs/en/Configuration.md).
+
+
 ## Installation
 
 ```
