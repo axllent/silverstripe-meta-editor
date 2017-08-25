@@ -1,0 +1,25 @@
+{
+	"name": "axllent/silverstripe-meta-editor",
+	"description": "Meta Editor for SilverStripe",
+	"type": "silverstripe-module",
+	"homepage": "https://github.com/axllent/silverstripe-meta-editor",
+	"keywords": ["silverstripe", "seo", "editing", "metatitle", "metadescription"],
+	"license": "The MIT License (MIT)",
+	"authors": [
+		{
+			"name": "Ralph Slooten",
+			"homepage": "http://www.axllent.org/"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/axllent/silverstripe-meta-editor/issues"
+	},
+	"require": {
+		"silverstripe/framework": "^4.0"
+	},
+    "autoload": {
+        "psr-4": {
+            "Axllent\\MetaEditor\\": "src/"
+        }
+    }
+}
