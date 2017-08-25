@@ -220,17 +220,17 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
 
     /**
      * Return all editable records
-     * Ignored hide_page_types & non_editable_page_types
+     * Ignored hidden_page_types & non_editable_page_types
      * @param null
      * @return DataList
      */
     public static function getAllEditableRecords()
     {
-        $hide_page_types = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'hide_page_types');
+        $hidden_page_types = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'hidden_page_types');
         $non_editable_page_types = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'non_editable_page_types');
         $ignore = [];
-        if (!empty($hide_page_types) && is_array($hide_page_types)) {
-            foreach ($hide_page_types as $class) {
+        if (!empty($hidden_page_types) && is_array($hidden_page_types)) {
+            foreach ($hidden_page_types as $class) {
                 $subclasses = ClassInfo::getValidSubClasses($class);
                 $ignore = array_merge(array_keys($subclasses), $ignore);
             }

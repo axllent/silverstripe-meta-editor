@@ -48,7 +48,7 @@ class MetaEditor extends ModelAdmin
      * Note that these (or their children) are not displayed
      * @config array
      */
-    private static $hide_page_types = [
+    private static $hidden_page_types = [
      'SilverStripe\\ErrorPage\\ErrorPage'
     ];
 
@@ -196,9 +196,9 @@ class MetaEditor extends ModelAdmin
         }
 
 
-        if ($this->config()->hide_page_types) {
+        if ($this->config()->hidden_page_types) {
             $ignore = [];
-            foreach ($this->config()->hide_page_types as $class) {
+            foreach ($this->config()->hidden_page_types as $class) {
                 $subclasses = ClassInfo::getValidSubClasses($class);
                 $ignore = array_merge(array_keys($subclasses), $ignore);
             }
