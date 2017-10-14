@@ -23,6 +23,6 @@ class MetaEditorPermissions
             }
         }
 
-        return !in_array($page->ClassName, self::$non_editable_page_types);
+        return !in_array(strtolower($page->ClassName), self::$non_editable_page_types);
     }
 }
