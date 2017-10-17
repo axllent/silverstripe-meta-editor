@@ -77,8 +77,8 @@ class MetaEditor extends ModelAdmin
     public function init()
     {
         parent::init();
-        Requirements::css(METAEDITOR_DIR . '/css/meta-editor.css');
-        Requirements::javascript(METAEDITOR_DIR . '/javascript/meta-editor.js');
+        Requirements::css('axllent/silverstripe-meta-editor: css/meta-editor.css');
+        Requirements::javascript('axllent/silverstripe-meta-editor: javascript/meta-editor.js');
     }
 
     public function getEditForm($id = null, $fields = null)

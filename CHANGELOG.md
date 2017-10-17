@@ -2,6 +2,11 @@
 
 Notable changes to this project will be documented in this file.
 
+## [1.0.2]
+
+- Switch to silverstripe-vendormodule
+
+
 ## [1.0.1]
 
 - Lowercase classname lookups (SilverStripe-beta4)
