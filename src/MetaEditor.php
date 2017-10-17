@@ -65,7 +65,7 @@ class MetaEditor extends ModelAdmin
     /**
      * @var string
      */
-    private static $menu_icon = 'axllent/silverstripe-meta-editor: images/MetaEditor.png';
+    private static $menu_icon = 'axllent/silverstripe-meta-editor: images/MetaEditor.svg';
 
     /**
      * @var array
