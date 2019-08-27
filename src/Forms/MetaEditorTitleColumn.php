@@ -1,38 +1,76 @@
 <?php
-
 namespace Axllent\MetaEditor\Forms;
 
 use Axllent\MetaEditor\Forms\MetaEditorDescriptionColumn;
 use Axllent\MetaEditor\Lib\MetaEditorPermissions;
 use Axllent\MetaEditor\MetaEditor;
 use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Control\HTTPResponse;
+use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Convert;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
-use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DB;
-use SilverStripe\ORM\FieldType\DBHTMLText;
 
 class MetaEditorTitleColumn extends GridFieldDataColumns implements
-    GridField_ColumnProvider,
-    GridField_HTMLProvider,
-    GridField_URLHandler
+GridField_ColumnProvider,
+GridField_HTMLProvider,
+GridField_URLHandler
 {
+    /**
+     * Augment Columns
+     *
+     * @param GridField $gridField Gridfield
+     * @param Array     $columns   Columns
+     *
+     * @return null
+     */
     public function augmentColumns($gridField, &$columns)
     {
     }
 
+    /**
+     * GetColumnsHandled
+     *
+     * @param GridField $gridField Gridfield
+     *
+     * @return array
+     */
     public function getColumnsHandled($gridField)
     {
         return ['MetaEditorTitleColumn'];
     }
 
+    /**
+     * GetColumnMetaData
+     *
+     * @param GridField $gridField  Gridfield
+     * @param String    $columnName Column name
+     *
+     * @return array
+     */
+    public function getColumnMetaData($gridField, $columnName)
+    {
+        return [
+            'title' => 'Meta Title',
+        ];
+    }
+
+    /**
+     * Get column attributes
+     *
+     * @param GridField  $gridField  Gridfield
+     * @param DataObject $record     Record
+     * @param String     $columnName Column name
+     *
+     * @return array
+     */
     public function getColumnAttributes($gridField, $record, $columnName)
     {
         if (!MetaEditorPermissions::canEdit($record)) {
@@ -43,23 +81,23 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
 
         return [
             'class' => count($errors)
-                ? 'has-warning meta-editor-error ' . implode(' ', $errors)
-                : 'has-success'
+            ? 'has-warning meta-editor-error ' . implode(' ', $errors)
+            : 'has-success',
         ];
     }
 
-    public function getColumnMetaData($gridField, $columnName)
-    {
-        return [
-            'title' => 'Meta Title'
-        ];
-    }
-
+    /**
+     * Return all the error messages
+     *
+     * @param DataObject $record DataObject
+     *
+     * @return string
+     */
     public static function getErrors($record)
     {
-        $title_field = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_title_field');
-        $title_min = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_title_min_length');
-        $title_max = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_title_max_length');
+        $title_field = Config::inst()->get(MetaEditor::class, 'meta_title_field');
+        $title_min   = Config::inst()->get(MetaEditor::class, 'meta_title_min_length');
+        $title_max   = Config::inst()->get(MetaEditor::class, 'meta_title_max_length');
 
         if (!MetaEditorPermissions::canEdit($record)) {
             return [];
@@ -81,18 +119,28 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
         return $errors;
     }
 
+    /**
+     * Get column content
+     *
+     * @param GridField  $gridField  Gridfield
+     * @param DataObject $record     Record
+     * @param String     $columnName Column name
+     *
+     * @return string
+     */
     public function getColumnContent($gridField, $record, $columnName)
     {
         if ($columnName == 'MetaEditorTitleColumn') {
             $value = $gridField->getDataFieldValue(
                 $record,
-                Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_title_field')
+                Config::inst()->get(MetaEditor::class, 'meta_title_field')
             );
             if (MetaEditorPermissions::canEdit($record)) {
                 $title_field = TextField::create('MetaTitle');
                 $title_field->setName($this->getFieldName($title_field->getName(), $gridField, $record));
                 $title_field->setValue($value);
                 $title_field->addExtraClass('form-control');
+
                 return $title_field->Field() . $this->getErrorMessages();
             } else {
                 return '<span class="non-editable">Meta tags not editable</span>';
@@ -100,7 +148,16 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
         }
     }
 
-    protected function getFieldName($name, \SilverStripe\Forms\GridField\GridField $gridField, $record)
+    /**
+     * Get field name
+     *
+     * @param String     $name      Name
+     * @param GridField  $gridField Gridfield
+     * @param DataObject $record    Record
+     *
+     * @return string
+     */
+    protected function getFieldName($name, GridField $gridField, $record)
     {
         return sprintf(
             '%s[%s][%s]',
@@ -110,11 +167,25 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
         );
     }
 
+    /**
+     * Get HTML Fragment
+     *
+     * @param GridField $gridField Gridfield
+     *
+     * @return GridField
+     */
     public function getHTMLFragments($gridField)
     {
         $gridField->addExtraClass('meta-editor');
     }
 
+    /**
+     * Get URL handlers
+     *
+     * @param GridField $gridField Gridfield
+     *
+     * @return array
+     */
     public function getURLHandlers($gridField)
     {
         return [
@@ -122,15 +193,23 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
         ];
     }
 
+    /**
+     * Handle Action
+     *
+     * @param GridField   $gridField Gridfield
+     * @param HTTPRequest $request   HTTP request
+     *
+     * @return HTTPResponse
+     */
     public function handleAction($gridField, $request)
     {
         $data = $request->postVar($gridField->getName());
 
-        $title_field = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_title_field');
-        $description_field = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_description_field');
+        $title_field       = Config::inst()->get(MetaEditor::class, 'meta_title_field');
+        $description_field = Config::inst()->get(MetaEditor::class, 'meta_description_field');
 
         foreach ($data as $id => $params) {
-            $page = self::getAllEditableRecords()->byID((int)$id);
+            $page = self::getAllEditableRecords()->byID((int) $id);
 
             $errors = [];
 
@@ -146,10 +225,11 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
                 if ($fieldName == 'MetaTitle') {
                     if (!$val) {
                         throw new HTTPResponse_Exception($title_field . ' cannot be blank', 500);
+
                         return $this->ajaxResponse(
                             $title_field . ' cannot be blank',
                             [
-                                'errors' => ['meta-editor-error-too-short']
+                                'errors' => ['meta-editor-error-too-short'],
                             ]
                         );
                     }
@@ -202,6 +282,14 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
         throw new HTTPResponse_Exception('An error occurred while saving', 500);
     }
 
+    /**
+     * Ajac response
+     *
+     * @param string $message Message
+     * @param array  $data    Array
+     *
+     * @return HTTPResponse
+     */
     public function ajaxResponse($message, $data = [])
     {
         $response = new HTTPResponse();
@@ -217,28 +305,27 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
         return $response;
     }
 
-
     /**
      * Return all editable records
      * Ignored hidden_page_types & non_editable_page_types
-     * @param null
+     *
      * @return DataList
      */
     public static function getAllEditableRecords()
     {
-        $hidden_page_types = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'hidden_page_types');
-        $non_editable_page_types = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'non_editable_page_types');
-        $ignore = [];
+        $hidden_page_types       = Config::inst()->get(MetaEditor::class, 'hidden_page_types');
+        $non_editable_page_types = Config::inst()->get(MetaEditor::class, 'non_editable_page_types');
+        $ignore                  = [];
         if (!empty($hidden_page_types) && is_array($hidden_page_types)) {
             foreach ($hidden_page_types as $class) {
                 $subclasses = ClassInfo::getValidSubClasses($class);
-                $ignore = array_merge(array_keys($subclasses), $ignore);
+                $ignore     = array_merge(array_keys($subclasses), $ignore);
             }
         }
         if (!empty($non_editable_page_types) && is_array($non_editable_page_types)) {
             foreach ($non_editable_page_types as $class) {
                 $subclasses = ClassInfo::getValidSubClasses($class);
-                $ignore = array_merge(array_keys($subclasses), $ignore);
+                $ignore     = array_merge(array_keys($subclasses), $ignore);
             }
         }
 
@@ -258,13 +345,13 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements
      */
     public function getErrorMessages()
     {
-        $title_min = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_title_min_length');
-        $title_max = Config::inst()->get('Axllent\\MetaEditor\\MetaEditor', 'meta_title_max_length');
+        $title_min = Config::inst()->get(MetaEditor::class, 'meta_title_min_length');
+        $title_max = Config::inst()->get(MetaEditor::class, 'meta_title_max_length');
 
         return '<div class="meta-editor-errors">' .
             '<span class="meta-editor-message meta-editor-message-too-short">Too short: should be between ' . $title_min . ' &amp; ' . $title_max . ' characters.</span>' .
             '<span class="meta-editor-message meta-editor-message-too-long">Too long: should be between ' . $title_min . ' &amp; ' . $title_max . ' characters long.</span>' .
             '<span class="meta-editor-message meta-editor-message-duplicate">This title is a duplicate of another page.</span>' .
-        '</div>';
+            '</div>';
     }
 }

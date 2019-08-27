@@ -1,42 +1,33 @@
-(function($) {
-    $.entwine('ss', function($) {
+(function ($) {
+    $.entwine('ss', function ($) {
 
         /* counter */
         $('body').append($('<div id="MetaEditorCharCounter"></div>').hide());
 
-        // $('.meta-editor .find-duplicates').entwine({
-        //     onclick: function(e) {
-        //         var content = $(this).closest('td').find('input,textarea').val();
-        //         $('#Form_SearchForm_Search').val(content);
-        //         $('#Form_SearchForm').submit();
-        //         e.preventDefault();
-        //     }
-        // });
-
         $('.meta-editor .ss-gridfield-item input, .meta-editor .ss-gridfield-item textarea').entwine({
 
-            onkeydown: function(e) {
+            onkeydown: function (e) {
                 if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
                     e.preventDefault();
                     $(this).trigger('change');
                 }
             },
 
-            onkeyup: function() {
+            onkeyup: function () {
                 $('#MetaEditorCharCounter').html($(this).val().trim().length);
             },
 
-            onfocusin: function() {
+            onfocusin: function () {
                 $('.cms-edit-form').removeClass('changed');
                 $('#MetaEditorCharCounter').show();
                 $('#MetaEditorCharCounter').html($(this).val().trim().length);
             },
 
-            onfocusout: function() {
+            onfocusout: function () {
                 $('#MetaEditorCharCounter').hide();
             },
 
-            onchange: function() {
+            onchange: function () {
 
                 // prevent changes to the form / popup
                 $('.cms-edit-form').removeClass('changed');
@@ -51,11 +42,11 @@
                     type: "POST",
                     url: url,
                     data: data,
-                    success: function(data, textStatus) {
+                    success: function (data, textStatus) {
                         $this.closest('td').removeClass();
                         if (data.errors.length) {
                             $this.closest('td').addClass('has-warning');
-                            data.errors.forEach(function(error) {
+                            data.errors.forEach(function (error) {
                                 $this.closest('td').addClass(error)
                             });
                         } else {
@@ -63,7 +54,7 @@
                         }
                         $('.cms-edit-form').removeClass('changed');
                     },
-                    error: function(data, textStatus) {
+                    error: function (data, textStatus) {
                         $this.closest('td').removeClass();
                         $this.closest('td').addClass('error');
                         alert(data.responseText);

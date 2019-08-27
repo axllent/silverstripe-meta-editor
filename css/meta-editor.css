@@ -1,82 +1,81 @@
 .meta-editor .ss-gridfield-item td {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 
 .meta-editor .ss-gridfield-item input {
-    min-width: 250px;
+  min-width: 250px;
 }
 
 .meta-editor .ss-gridfield-item .saving input,
 .meta-editor .ss-gridfield-item .saving textarea {
-    background-image: url('../images/spinner.gif');
-    background-repeat: no-repeat;
-    background-position: center right;
+  background-image: url("../images/spinner.gif");
+  background-repeat: no-repeat;
+  background-position: center right;
 }
 
 .meta-editor .ss-gridfield-item .non-editable {
-    font-style: italic;
+  font-style: italic;
 }
 
 .meta-editor .ss-gridfield-item .error input,
 .meta-editor .ss-gridfield-item .error textarea {
-    background-image: url('../images/error.png');
-    background-repeat: no-repeat;
-    background-position: center right;
+  background-image: url("../images/error.png");
+  background-repeat: no-repeat;
+  background-position: center right;
 }
 
 .meta-editor .ss-gridfield-item textarea {
-    min-width: 250px;
-    height: 80px;
+  min-width: 250px;
+  height: 80px;
 }
 
 .meta-editor .ss-gridfield-item .has-warning {
-    position: relative;
+  position: relative;
 }
 
 .meta-editor-message {
-    display: none;
-    position: relative;
-    padding: 3px 0;
-    font-size: 90%;
-    color: #b37927;
+  display: none;
+  position: relative;
+  padding: 3px 0;
+  font-size: 90%;
+  color: #b37927;
 }
-
 
 /* Error Message States */
 .meta-editor-error-too-short .meta-editor-message-too-short,
 .meta-editor-error-too-long .meta-editor-message-too-long,
 .meta-editor-error-duplicate .meta-editor-message-duplicate {
-    display: block;
+  display: block;
 }
 
 #MetaEditorCharCounter {
-    position: fixed;
-    bottom: 0;
-    right: 25px;
-    background: #373737;
-    z-index: 99;
-    padding: 5px 10px;
-    color: #fff;
-    opacity: 0.7;
-    border-radius: 10px;
+  position: fixed;
+  bottom: 0;
+  right: 25px;
+  background: #373737;
+  z-index: 99;
+  padding: 5px 10px;
+  color: #fff;
+  opacity: 0.7;
+  border-radius: 10px;
 }
 
 .col-MetaEditorPageColumn {
-    width: 25%;
+  width: 25%;
 }
 
 .meta-editor .ss-gridfield-item .col-MetaEditorPageLinkColumn {
-    width: 35px;
-    padding-left: 0;
-    padding-right: 0;
-    text-align: center;
+  width: 35px;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
 }
 
 .col-MetaEditorPageLinkColumn a {
-    opacity: 0;
-    transition: opacity 0.5s;
+  opacity: 0;
+  transition: opacity 0.5s;
 }
 
 .col-MetaEditorPageLinkColumn:hover a {
-    opacity: 1;
+  opacity: 1;
 }

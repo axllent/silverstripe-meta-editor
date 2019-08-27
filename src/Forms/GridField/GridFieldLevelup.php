@@ -1,5 +1,4 @@
 <?php
-
 namespace Axllent\MetaEditor\Forms\GridField;
 
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
@@ -15,80 +14,135 @@ class GridFieldLevelup implements GridField_HTMLProvider
 {
 
     /**
+     * LinkSpec
+     *
      * @var string
      */
     protected $linkSpec = '';
 
     /**
+     * Attributes
+     *
      * @var array Extra attributes for the link
      */
     protected $attributes = [];
 
     /**
+     * Content
+     *
      * @var Link content (inside html)
      */
     protected $content;
 
     /**
+     * Constructor
      *
-     * @param integer $currentID - The ID of the current item; this button will find that item's parent
+     * @return void
      */
     public function __construct()
     {
     }
 
     /**
-     * @param GridField $gridField
+     * Get HTML Fragment
+     *
+     * @param GridField $gridField Gridfield
+     *
      * @return array|null
      */
     public function getHTMLFragments($gridField)
     {
         // Attributes
-        $attrs = array_merge($this->attributes, array(
-            'href' => $this->linkSpec,
-            'class' => 'cms-panel-link ss-ui-button font-icon-level-up grid-levelup',
-        ));
+        $attrs = array_merge(
+            $this->attributes,
+            [
+                'href'  => $this->linkSpec,
+                'class' => 'cms-panel-link ss-ui-button font-icon-level-up grid-levelup',
+            ]
+        );
 
         $linkTag = HTML::createTag('a', $attrs, $this->content);
 
-        $forTemplate = new ArrayData(array(
-            'UpLink' => DBField::create_field('HTMLFragment', $linkTag)
-        ));
+        $forTemplate = ArrayData::create(
+            [
+                'UpLink' => DBField::create_field('HTMLFragment', $linkTag),
+            ]
+        );
 
         $template = SSViewer::get_templates_by_class($this, '', __CLASS__);
-        return array(
+
+        return [
             'before' => $forTemplate->renderWith($template),
-        );
+        ];
     }
 
+    /**
+     * Set Attributes
+     *
+     * @param array $attrs array
+     *
+     * @return self
+     */
     public function setAttributes($attrs)
     {
         $this->attributes = $attrs;
+
         return $this;
     }
 
+    /**
+     * Return attributes
+     *
+     * @return array
+     */
     public function getAttributes()
     {
         return $this->attributes;
     }
 
+    /**
+     * Set Link Spec
+     *
+     * @param string $link Link
+     *
+     * @return self
+     */
     public function setLinkSpec($link)
     {
         $this->linkSpec = $link;
+
         return $this;
     }
 
+    /**
+     * Get Link Spec
+     *
+     * @return string
+     */
     public function getLinkSpec()
     {
         return $this->linkSpec;
     }
 
+    /**
+     * Set content
+     *
+     * @param string $string Content
+     *
+     * @return self
+     */
     public function setContent($string)
     {
         $this->content = $string;
+
         return $this;
     }
 
+    /**
+     * Get Content
+     *
+     * @return string
+     */
     public function getContent()
     {
         return $this->content;
