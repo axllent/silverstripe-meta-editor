@@ -2,6 +2,12 @@
 
 Notable changes to this project will be documented in this file.
 
+## [1.0.3]
+
+- Remove `Archive` button from gridfield
+- Add dockblocks to code
+
+
 ## [1.0.2]
 
 - Switch to silverstripe-vendormodule
