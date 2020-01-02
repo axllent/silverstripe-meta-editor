@@ -2,10 +2,15 @@
 
 Notable changes to this project will be documented in this file.
 
+## [dev]
+
+- Add [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent) support
+
+
 ## [1.0.3]
 
 - Remove `Archive` button from gridfield
-- Add dockblocks to code
+- Add docblocks to code
 
 
 ## [1.0.2]
