@@ -20,6 +20,7 @@ for **SilverStripe 4**.
 - Search, including selecting all pages with warnings
 - Set non-editable pages (eg: RedirectPage)
 - Set hidden pages (eg: ErrorPage)
+- Works transparently with [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent) (optional)
 
 
 ## Requirements
