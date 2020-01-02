@@ -10,6 +10,7 @@ use SilverStripe\Control\HTTPResponse_Exception;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
@@ -17,6 +18,9 @@ use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DB;
+use TractorCow\Fluent\Extension\FluentSiteTreeExtension;
+use TractorCow\Fluent\Model\Locale;
+use TractorCow\Fluent\State\FluentState;
 
 class MetaEditorTitleColumn extends GridFieldDataColumns implements
 GridField_ColumnProvider,
@@ -95,9 +99,12 @@ GridField_URLHandler
      */
     public static function getErrors($record)
     {
-        $title_field = Config::inst()->get(MetaEditor::class, 'meta_title_field');
-        $title_min   = Config::inst()->get(MetaEditor::class, 'meta_title_min_length');
-        $title_max   = Config::inst()->get(MetaEditor::class, 'meta_title_max_length');
+        $title_field = Config::inst()
+            ->get(MetaEditor::class, 'meta_title_field');
+        $title_min = Config::inst()
+            ->get(MetaEditor::class, 'meta_title_min_length');
+        $title_max = Config::inst()
+            ->get(MetaEditor::class, 'meta_title_max_length');
 
         if (!MetaEditorPermissions::canEdit($record)) {
             return [];
@@ -137,7 +144,13 @@ GridField_URLHandler
             );
             if (MetaEditorPermissions::canEdit($record)) {
                 $title_field = TextField::create('MetaTitle');
-                $title_field->setName($this->getFieldName($title_field->getName(), $gridField, $record));
+                $title_field->setName(
+                    $this->getFieldName(
+                        $title_field->getName(),
+                        $gridField,
+                        $record
+                    )
+                );
                 $title_field->setValue($value);
                 $title_field->addExtraClass('form-control');
 
@@ -205,13 +218,32 @@ GridField_URLHandler
     {
         $data = $request->postVar($gridField->getName());
 
-        $title_field       = Config::inst()->get(MetaEditor::class, 'meta_title_field');
-        $description_field = Config::inst()->get(MetaEditor::class, 'meta_description_field');
+        $title_field = Config::inst()
+            ->get(MetaEditor::class, 'meta_title_field');
+        $description_field = Config::inst()
+            ->get(MetaEditor::class, 'meta_description_field');
+
+        $sitetree      = 'SiteTree';
+        $sitetree_live = 'SiteTree_Live';
+        $fluent        = Injector::inst()
+            ->get(SiteTree::class)
+            ->hasExtension(FluentSiteTreeExtension::class)
+        && Locale::get()->count();
+
+        if ($fluent) {
+            $sitetree      = 'SiteTree_Localised';
+            $sitetree_live = 'SiteTree_Localised_Live';
+            $locale        = FluentState::singleton()->getLocale();
+        }
 
         foreach ($data as $id => $params) {
             $page = self::getAllEditableRecords()->byID((int) $id);
 
             $errors = [];
+
+            $identifier = $fluent ?
+            "RecordID = {$page->ID} AND Locale = '{$locale}'" :
+            "ID = {$page->ID}";
 
             foreach ($params as $fieldName => $val) {
                 $val = trim(preg_replace('/\s+/', ' ', $val));
@@ -224,7 +256,10 @@ GridField_URLHandler
                 /* Make sure the MenuTitle remains unchanged if NULL! */
                 if ($fieldName == 'MetaTitle') {
                     if (!$val) {
-                        throw new HTTPResponse_Exception($title_field . ' cannot be blank', 500);
+                        throw new HTTPResponse_Exception(
+                            $title_field . ' cannot be blank',
+                            500
+                        );
 
                         return $this->ajaxResponse(
                             $title_field . ' cannot be blank',
@@ -233,7 +268,11 @@ GridField_URLHandler
                             ]
                         );
                     }
-                    $query = DB::query('SELECT MenuTitle, ' . $title_field . " FROM SiteTree WHERE ID = {$page->ID}");
+                    // Only change the Title, leaving the MenuTitle as it was
+                    $query = DB::query(
+                        "SELECT MenuTitle, {$title_field} FROM {$sitetree}
+                        WHERE " . $identifier
+                    );
                     foreach ($query as $row) {
                         $menuTitle = '\'' . Convert::raw2sql($row['MenuTitle']) . '\'';
                         if (is_null($row['MenuTitle'])) {
@@ -242,16 +281,29 @@ GridField_URLHandler
                         if ($menuTitle == $sqlValue) { // set back to NULL
                             $menuTitle = 'NULL';
                         }
-                        DB::query('UPDATE SiteTree SET MenuTitle = ' . $menuTitle . " WHERE ID = {$page->ID}");
+                        DB::query(
+                            "UPDATE {$sitetree} SET MenuTitle = {$menuTitle}
+                             WHERE " . $identifier
+                        );
                         if ($page->isPublished()) {
-                            DB::query('UPDATE SiteTree_Live SET MenuTitle = ' . $menuTitle . " WHERE ID = {$page->ID}");
+                            DB::query(
+                                "UPDATE {$sitetree_live} SET MenuTitle = {$menuTitle}
+                                WHERE " . $identifier
+                            );
                         }
                     }
 
                     /* Update MetaTitle */
-                    DB::query("UPDATE SiteTree SET {$title_field} = {$sqlValue} WHERE ID = {$page->ID}");
+                    DB::query(
+                        "UPDATE {$sitetree} SET {$title_field} = {$sqlValue}
+                        WHERE " . $identifier
+                    );
+
                     if ($page->isPublished()) {
-                        DB::query("UPDATE SiteTree_Live SET {$title_field} = {$sqlValue} WHERE ID = {$page->ID}");
+                        DB::query(
+                            "UPDATE {$sitetree_live} SET {$title_field} = {$sqlValue}
+                            WHERE " . $identifier
+                        );
                     }
 
                     $record = self::getAllEditableRecords()->byID($page->ID);
@@ -263,9 +315,17 @@ GridField_URLHandler
                     );
                 } elseif ($fieldName == 'MetaDescription') {
                     /* Update MetaDescription */
-                    DB::query("UPDATE SiteTree SET {$description_field} = {$sqlValue} WHERE ID = {$page->ID}");
+                    DB::query(
+                        "UPDATE {$sitetree} SET {$description_field} = {$sqlValue}
+                        WHERE " . $identifier
+                    );
+
                     if ($page->isPublished()) {
-                        DB::query("UPDATE SiteTree_Live SET {$description_field} = {$sqlValue} WHERE ID = {$page->ID}");
+                        DB::query(
+                            "UPDATE {$sitetree_live}
+                            SET {$description_field} = {$sqlValue}
+                            WHERE " . $identifier
+                        );
                     }
 
                     $record = self::getAllEditableRecords()->byID($page->ID);
@@ -313,9 +373,11 @@ GridField_URLHandler
      */
     public static function getAllEditableRecords()
     {
-        $hidden_page_types       = Config::inst()->get(MetaEditor::class, 'hidden_page_types');
-        $non_editable_page_types = Config::inst()->get(MetaEditor::class, 'non_editable_page_types');
-        $ignore                  = [];
+        $hidden_page_types = Config::inst()
+            ->get(MetaEditor::class, 'hidden_page_types');
+        $non_editable_page_types = Config::inst()
+            ->get(MetaEditor::class, 'non_editable_page_types');
+        $ignore = [];
         if (!empty($hidden_page_types) && is_array($hidden_page_types)) {
             foreach ($hidden_page_types as $class) {
                 $subclasses = ClassInfo::getValidSubClasses($class);

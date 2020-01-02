@@ -9,6 +9,7 @@ use Axllent\MetaEditor\Forms\MetaEditorTitleColumn;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
@@ -19,6 +20,8 @@ use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridField_ActionMenu;
 use SilverStripe\Forms\GridField\GridField_ActionMenuItem;
 use SilverStripe\View\Requirements;
+use TractorCow\Fluent\Extension\FluentSiteTreeExtension;
+use TractorCow\Fluent\Model\Locale;
 
 class MetaEditor extends ModelAdmin
 {
@@ -157,7 +160,6 @@ class MetaEditor extends ModelAdmin
 
             if ($parent_id) {
                 $parent = SiteTree::get()->byID($parent_id);
-
                 if ($parent) {
                     if ($parent->Parent()->exists()) {
                         $up_title = $parent->Parent()->MenuTitle;
@@ -262,6 +264,17 @@ class MetaEditor extends ModelAdmin
             $list = $list->filter('ParentID', $parent_id);
         }
 
-        return $list;
+        $fluent = Injector::inst()->get(SiteTree::class)
+            ->hasExtension(FluentSiteTreeExtension::class) && Locale::get()->count();
+
+        if ($fluent) {
+            $list = $list->filterbyCallBack(
+                function ($page) {
+                    return $page->existsInLocale();
+                }
+            );
+        }
+
+        return $list->count() ? $list : SiteTree::get()->filter('ID', 0);
     }
 }
