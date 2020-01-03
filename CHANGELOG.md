@@ -2,7 +2,7 @@
 
 Notable changes to this project will be documented in this file.
 
-## [dev]
+## [1.1.0]
 
 - Add [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent) support
 
