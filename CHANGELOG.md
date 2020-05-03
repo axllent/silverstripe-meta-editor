@@ -2,6 +2,11 @@
 
 Notable changes to this project will be documented in this file.
 
+## [1.2.0]
+
+- Add `onAfterMetaEditorUpdate` hook
+
+
 ## [1.1.0]
 
 - Add [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent) support

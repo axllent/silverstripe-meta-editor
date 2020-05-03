@@ -290,6 +290,10 @@ GridField_URLHandler
                                 "UPDATE {$sitetree_live} SET MenuTitle = {$menuTitle}
                                 WHERE " . $identifier
                             );
+
+                            if ($page->hasMethod('onAfterMetaEditorUpdate')) {
+                                $page->onAfterMetaEditorUpdate();
+                            }
                         }
                     }
 
@@ -326,6 +330,10 @@ GridField_URLHandler
                             SET {$description_field} = {$sqlValue}
                             WHERE " . $identifier
                         );
+
+                        if ($page->hasMethod('onAfterMetaEditorUpdate')) {
+                            $page->onAfterMetaEditorUpdate();
+                        }
                     }
 
                     $record = self::getAllEditableRecords()->byID($page->ID);

@@ -18,29 +18,41 @@ Axllent\MetaEditor\MetaEditor:
     - SilverStripe\ErrorPage\ErrorPage
 ```
 
-## meta_title_field
+### meta_title_field
 
 The database field used for the meta title
 
-## meta_title_min_length / meta_title_max_length
+### meta_title_min_length / meta_title_max_length
 
 The minimum and maximum length the meta title should be
 
-## meta_description_field
+### meta_description_field
 
 The database field used for the meta description
 
-## meta_description_min_length / meta_description_max_length
+### meta_description_min_length / meta_description_max_length
 
 The minimum and maximum length the meta description should be
 
-## non_editable_page_types
+### non_editable_page_types
 
 Array of page classes to prevent meta title/description editing. These will still be shown, but will not
 be editiable. **Note**: Classes are inherited, so any class extending these will also not be editable.
 
-## hidden_page_types
+### hidden_page_types
 
 Array of page classes to hide from the editor.
 **Note**: Classes are inherited, so any class extending these will also not be shown. This includes children,
 even if they themselves are editable.
+
+## Custom page hooks after update (`onAfterMetaEditorUpdate()`)
+
+If you need to run custom actions (such as regeneration of cache etc) after a meta field has been updated, then you can add the following function to your page class:
+
+```
+public function onAfterMetaEditorUpdate()
+{
+    /// custom code
+}
+```
+Note: this function is only callen when editing a published page.
