@@ -1,4 +1,5 @@
 <?php
+
 namespace Axllent\MetaEditor\Forms\GridField;
 
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
@@ -12,7 +13,6 @@ use SilverStripe\View\SSViewer;
  */
 class GridFieldLevelup implements GridField_HTMLProvider
 {
-
     /**
      * LinkSpec
      *
@@ -48,7 +48,7 @@ class GridFieldLevelup implements GridField_HTMLProvider
      *
      * @param GridField $gridField Gridfield
      *
-     * @return array|null
+     * @return null|array
      */
     public function getHTMLFragments($gridField)
     {

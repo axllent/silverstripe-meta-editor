@@ -1,4 +1,5 @@
 <?php
+
 namespace Axllent\MetaEditor\Forms;
 
 use Axllent\MetaEditor\Lib\MetaEditorPermissions;
@@ -12,7 +13,7 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
      * Augment Columns
      *
      * @param GridField $gridField Gridfield
-     * @param Array     $columns   Columns
+     * @param array     $columns   Columns
      *
      * @return null
      */
@@ -38,7 +39,7 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
      * GetColumnMetaData
      *
      * @param GridField $gridField  Gridfield
-     * @param String    $columnName Column name
+     * @param string    $columnName Column name
      *
      * @return array
      */
@@ -54,7 +55,7 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return array
      */
@@ -101,12 +102,17 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
 
         $errors = [];
 
-        if (strlen($record->$description_field) < $description_min) {
+        if (!$record->{$description_field}
+            || strlen($record->{$description_field}) < $description_min
+        ) {
             $errors[] = 'meta-editor-error-too-short';
-        } elseif (strlen($record->$description_field) > $description_max) {
+        } elseif ($record->{$description_field}
+            && strlen($record->{$description_field}) > $description_max
+        ) {
             $errors[] = 'meta-editor-error-too-long';
-        } elseif ($record->$description_field
-            && self::getAllEditableRecords()->filter($description_field, $record->$description_field)->count() > 1
+        } elseif ($record->{$description_field}
+            && self::getAllEditableRecords()
+                ->filter($description_field, $record->{$description_field})->count() > 1
         ) {
             $errors[] = 'meta-editor-error-duplicate';
         }
@@ -119,13 +125,13 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return string
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ($columnName == 'MetaEditorDescriptionColumn') {
+        if ('MetaEditorDescriptionColumn' == $columnName) {
             $value = $gridField->getDataFieldValue(
                 $record,
                 Config::inst()->get(MetaEditor::class, 'meta_description_field')
@@ -142,9 +148,9 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
                 $description_field->setValue($value);
 
                 return $description_field->Field() . $this->getErrorMessages();
-            } else {
-                return ''; // blank
             }
+
+            return ''; // blank
         }
     }
 

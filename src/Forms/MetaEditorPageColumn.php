@@ -1,7 +1,7 @@
 <?php
+
 namespace Axllent\MetaEditor\Forms;
 
-use Axllent\MetaEditor\Forms\MetaEditorTitleColumn;
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
 
 class MetaEditorPageColumn implements GridField_ColumnProvider
@@ -10,7 +10,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
      * Augment Columns
      *
      * @param GridField $gridField Gridfield
-     * @param Array     $columns   Columns
+     * @param array     $columns   Columns
      *
      * @return null
      */
@@ -34,7 +34,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
      * GetColumnMetaData
      *
      * @param GridField $gridField  Gridfield
-     * @param String    $columnName Column name
+     * @param string    $columnName Column name
      *
      * @return array
      */
@@ -43,6 +43,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
         switch ($columnName) {
             case 'MetaEditorPageColumn':
                 return ['title' => 'Page'];
+
             default:
                 break;
         }
@@ -53,7 +54,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return array
      */
@@ -67,13 +68,13 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return string
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ($columnName == 'MetaEditorPageColumn') {
+        if ('MetaEditorPageColumn' == $columnName) {
             $children = MetaEditorTitleColumn::getAllEditableRecords()
                 ->filter('ParentID', $record->ID);
 

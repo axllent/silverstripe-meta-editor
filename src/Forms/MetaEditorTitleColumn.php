@@ -1,7 +1,7 @@
 <?php
+
 namespace Axllent\MetaEditor\Forms;
 
-use Axllent\MetaEditor\Forms\MetaEditorDescriptionColumn;
 use Axllent\MetaEditor\Lib\MetaEditorPermissions;
 use Axllent\MetaEditor\MetaEditor;
 use SilverStripe\CMS\Model\SiteTree;
@@ -12,26 +12,23 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
+use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DB;
 use TractorCow\Fluent\Extension\FluentSiteTreeExtension;
 use TractorCow\Fluent\Model\Locale;
 use TractorCow\Fluent\State\FluentState;
 
-class MetaEditorTitleColumn extends GridFieldDataColumns implements
-GridField_ColumnProvider,
-GridField_HTMLProvider,
-GridField_URLHandler
+class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_ColumnProvider, GridField_HTMLProvider, GridField_URLHandler
 {
     /**
      * Augment Columns
      *
      * @param GridField $gridField Gridfield
-     * @param Array     $columns   Columns
+     * @param array     $columns   Columns
      *
      * @return null
      */
@@ -55,7 +52,7 @@ GridField_URLHandler
      * GetColumnMetaData
      *
      * @param GridField $gridField  Gridfield
-     * @param String    $columnName Column name
+     * @param string    $columnName Column name
      *
      * @return array
      */
@@ -71,7 +68,7 @@ GridField_URLHandler
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return array
      */
@@ -112,13 +109,13 @@ GridField_URLHandler
 
         $errors = [];
 
-        if (strlen($record->$title_field) < $title_min) {
+        if (strlen($record->{$title_field}) < $title_min) {
             $errors[] = 'meta-editor-error-too-short';
-        } elseif (strlen($record->$title_field) > $title_max) {
+        } elseif (strlen($record->{$title_field}) > $title_max) {
             $errors[] = 'meta-editor-error-too-long';
         } elseif (
-            $record->$title_field &&
-            self::getAllEditableRecords()->filter($title_field, $record->$title_field)->count() > 1
+            $record->{$title_field}
+            && self::getAllEditableRecords()->filter($title_field, $record->{$title_field})->count() > 1
         ) {
             $errors[] = 'meta-editor-error-duplicate';
         }
@@ -131,13 +128,13 @@ GridField_URLHandler
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return string
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ($columnName == 'MetaEditorTitleColumn') {
+        if ('MetaEditorTitleColumn' == $columnName) {
             $value = $gridField->getDataFieldValue(
                 $record,
                 Config::inst()->get(MetaEditor::class, 'meta_title_field')
@@ -155,16 +152,16 @@ GridField_URLHandler
                 $title_field->addExtraClass('form-control');
 
                 return $title_field->Field() . $this->getErrorMessages();
-            } else {
-                return '<span class="non-editable">Meta tags not editable</span>';
             }
+
+            return '<span class="non-editable">Meta tags not editable</span>';
         }
     }
 
     /**
      * Get field name
      *
-     * @param String     $name      Name
+     * @param string     $name      Name
      * @param GridField  $gridField Gridfield
      * @param DataObject $record    Record
      *
@@ -253,8 +250,8 @@ GridField_URLHandler
                     $sqlValue = 'NULL';
                 }
 
-                /* Make sure the MenuTitle remains unchanged if NULL! */
-                if ($fieldName == 'MetaTitle') {
+                // Make sure the MenuTitle remains unchanged if NULL!
+                if ('MetaTitle' == $fieldName) {
                     if (!$val) {
                         throw new HTTPResponse_Exception(
                             $title_field . ' cannot be blank',
@@ -297,7 +294,7 @@ GridField_URLHandler
                         }
                     }
 
-                    /* Update MetaTitle */
+                    // Update MetaTitle
                     DB::query(
                         "UPDATE {$sitetree} SET {$title_field} = {$sqlValue}
                         WHERE " . $identifier
@@ -317,8 +314,9 @@ GridField_URLHandler
                         $title_field . ' saved (' . strlen($val) . ' chars)',
                         ['errors' => $errors]
                     );
-                } elseif ($fieldName == 'MetaDescription') {
-                    /* Update MetaDescription */
+                }
+                if ('MetaDescription' == $fieldName) {
+                    // Update MetaDescription
                     DB::query(
                         "UPDATE {$sitetree} SET {$description_field} = {$sqlValue}
                         WHERE " . $identifier

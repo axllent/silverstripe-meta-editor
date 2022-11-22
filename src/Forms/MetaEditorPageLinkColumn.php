@@ -1,4 +1,5 @@
 <?php
+
 namespace Axllent\MetaEditor\Forms;
 
 use SilverStripe\Forms\GridField\GridField_ColumnProvider;
@@ -9,7 +10,7 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
      * Augment Columns
      *
      * @param GridField $gridField Gridfield
-     * @param Array     $columns   Columns
+     * @param array     $columns   Columns
      *
      * @return null
      */
@@ -33,7 +34,7 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
      * GetColumnMetaData
      *
      * @param GridField $gridField  Gridfield
-     * @param String    $columnName Column name
+     * @param string    $columnName Column name
      *
      * @return array
      */
@@ -42,6 +43,7 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
         switch ($columnName) {
             case 'MetaEditorPageLinkColumn':
                 return ['title' => ''];
+
             default:
                 break;
         }
@@ -52,7 +54,7 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return array
      */
@@ -66,13 +68,13 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
      *
      * @param GridField  $gridField  Gridfield
      * @param DataObject $record     Record
-     * @param String     $columnName Column name
+     * @param string     $columnName Column name
      *
      * @return string
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ($columnName == 'MetaEditorPageLinkColumn') {
+        if ('MetaEditorPageLinkColumn' == $columnName) {
             $link      = $record->Link();
             $edit_link = $record->CMSEditLink();
 
