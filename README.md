@@ -1,14 +1,14 @@
-# SilverStripe Meta Editor
+# Silverstripe Meta Editor
 
-The SilverStripe Meta Editor interface allows easy editing of Meta Titles and Meta Descriptions
+The Silverstripe Meta Editor interface allows easy editing of Meta Titles and Meta Descriptions
 for pages within a customised ModelAdmin interface.
 
 Values are updated directly via Ajax, and provide handy warnings about value length and duplicates.
 
 This module is a complete rebuild of [axllent/silverstripe-seo-editor](https://github.com/axllent/silverstripe-seo-editor)
-for **SilverStripe 4**.
+for **Silverstripe 4**.
 
-![SilverStripe Meta Editor](images/Screenshot.png "SilverStripe Meta Editor")
+![Silverstripe Meta Editor](images/Screenshot.png "Silverstripe Meta Editor")
 
 
 ## Features
@@ -16,7 +16,7 @@ for **SilverStripe 4**.
 - Tree-like navigation, browse down into sub-pages
 - Ajax updates, character counter
 - Input validation (too long or short, duplicates)
-- Data cleaning - excess whitepace removed
+- Data cleaning - excess whitespace removed
 - Search, including selecting all pages with warnings
 - Set non-editable pages (eg: RedirectPage)
 - Set hidden pages (eg: ErrorPage)
@@ -25,7 +25,7 @@ for **SilverStripe 4**.
 
 ## Requirements
 
-- SilverStripe ^4
+- Silverstripe ^4
 
 
 ## Configuration
