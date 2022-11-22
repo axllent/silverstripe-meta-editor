@@ -43,7 +43,7 @@
                     url: url,
                     data: data,
                     success: function (data, textStatus) {
-                        $this.closest('td').removeClass();
+                        $this.closest('td').attr('class', '');
                         if (data.errors.length) {
                             $this.closest('td').addClass('has-warning');
                             data.errors.forEach(function (error) {
@@ -55,7 +55,7 @@
                         $('.cms-edit-form').removeClass('changed');
                     },
                     error: function (data, textStatus) {
-                        $this.closest('td').removeClass();
+                        $this.closest('td').attr('class', '');
                         $this.closest('td').addClass('error');
                         alert(data.responseText);
                     },
