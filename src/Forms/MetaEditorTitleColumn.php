@@ -417,27 +417,27 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
         $title_max = Config::inst()->get(MetaEditor::class, 'meta_title_max_length');
 
         return '<div class="meta-editor-errors">' .
-            '<span class="meta-editor-message meta-editor-message-too-short">'.
+            '<span class="meta-editor-message meta-editor-message-too-short">' .
             _t(
-                self::class . '.TITLE_COLUMN_TOO_SHORT',
-                'Too short: should be between {title_min}  &amp; {title_max} characters.',
+                self::class . '.TITLE_TOO_SHORT',
+                'Too short: should be between {title_min} &amp; {title_max} characters.',
                 [
                     'title_min' => $title_min,
-                    'title_max' => $title_max
+                    'title_max' => $title_max,
                 ]
             ) . '</span>' .
-            '<span class="meta-editor-message meta-editor-message-too-long">'.
+            '<span class="meta-editor-message meta-editor-message-too-long">' .
             _t(
-                self::class . '.TITLE_COLUMN_TOO_LONG',
-                'Too long: should be between {title_min}  &amp; {title_max} characters.',
+                self::class . '.TITLE_TOO_LONG',
+                'Too long: should be between {title_min} &amp; {title_max} characters.',
                 [
                     'title_min' => $title_min,
-                    'title_max' => $title_max
+                    'title_max' => $title_max,
                 ]
             ) . '</span>' .
-            '<span class="meta-editor-message meta-editor-message-duplicate">'.
+            '<span class="meta-editor-message meta-editor-message-duplicate">' .
             _t(
-                self::class . '.TITLE_COLUMN_DUPLICATE',
+                self::class . '.TITLE_DUPLICATE',
                 'This title is a duplicate of another page.'
             ) . '</span>' .
             '</div>';

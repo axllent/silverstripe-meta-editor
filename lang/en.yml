@@ -1,0 +1,9 @@
+en:
+  Axllent\MetaEditor\Forms\MetaEditorTitleColumn:
+    TITLE_TOO_SHORT: "Too short: should be between {title_min} &amp; {title_max} characters."
+    TITLE_TOO_LONG: "Too long: should be between {title_min} &amp; {title_max} characters."
+    TITLE_DUPLICATE: "This title is a duplicate of another page."
+  Axllent\MetaEditor\Forms\MetaEditorDescriptionColumn:
+    DESCRIPTION_TOO_SHORT: "Too short: should be between {description_min} &amp; {description_max} characters."
+    DESCRIPTION_TOO_LONG: "Too long: should be between {description_min} &amp; {description_max} characters."
+    DESCRIPTION_DUPLICATE: "This description is a duplicate of another page."
