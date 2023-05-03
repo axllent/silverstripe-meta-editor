@@ -2,6 +2,11 @@
 
 Notable changes to this project will be documented in this file.
 
+## [1.2.2]
+
+- Translation support for error messages
+
+
 ## [1.2.1]
 
 - Support for PHP 8.1
