@@ -171,9 +171,29 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
         );
 
         return '<div class="meta-editor-errors">' .
-            '<span class="meta-editor-message meta-editor-message-too-short">Too short: should be between ' . $description_min . ' &amp; ' . $description_max . ' characters.</span>' .
-            '<span class="meta-editor-message meta-editor-message-too-long">Too long: should be between ' . $description_min . ' &amp; ' . $description_max . ' characters.</span>' .
-            '<span class="meta-editor-message meta-editor-message-duplicate">This description is a duplicate of another page.</span>' .
+            '<span class="meta-editor-message meta-editor-message-too-short">'.
+            _t(
+                self::class . '.DESCRIPTION_TOO_SHORT',
+                'Too short: should be between {description_min}  &amp; {description_max} characters.',
+                [
+                    'description_min' => $description_min,
+                    'description_max' => $description_max
+                ]
+            ) . '</span>' .
+            '<span class="meta-editor-message meta-editor-message-too-long">'.
+            _t(
+                self::class . '.DESCRIPTION_TOO_LONG',
+                'Too long: should be between {description_min}  &amp; {description_max} characters.',
+                [
+                    'description_min' => $description_min,
+                    'description_max' => $description_max
+                ]
+            ) . '</span>' .
+            '<span class="meta-editor-message meta-editor-message-duplicate">'.
+            _t(
+                self::class . '.DESCRIPTION_DUPLICATE',
+                'This description is a duplicate of another page.'
+            ) . '</span>' .
             '</div>';
     }
 }
