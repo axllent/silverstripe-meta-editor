@@ -55,4 +55,4 @@ public function onAfterMetaEditorUpdate()
     /// custom code
 }
 ```
-Note: this function is only callen when editing a published page.
+Note: this function is only called when editing a published page.
