@@ -2,6 +2,11 @@
 
 Notable changes to this project will be documented in this file.
 
+## [1.2.3]
+
+- Add support for Silverstripe 5
+
+
 ## [1.2.2]
 
 - Translation support for error messages
