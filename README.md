@@ -6,7 +6,7 @@ for pages within a customised ModelAdmin interface.
 Values are updated directly via Ajax, and provide handy warnings about value length and duplicates.
 
 This module is a complete rebuild of [axllent/silverstripe-seo-editor](https://github.com/axllent/silverstripe-seo-editor)
-for **Silverstripe 4**.
+for Silverstripe 4 & 5.
 
 ![Silverstripe Meta Editor](images/Screenshot.png "Silverstripe Meta Editor")
 
@@ -25,7 +25,7 @@ for **Silverstripe 4**.
 
 ## Requirements
 
-- Silverstripe ^4
+- Silverstripe ^4 || ^5
 
 
 ## Configuration

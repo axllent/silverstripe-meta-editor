@@ -1,23 +1,29 @@
 {
-	"name": "axllent/silverstripe-meta-editor",
-	"description": "Meta Editor for SilverStripe",
-	"type": "silverstripe-vendormodule",
-	"homepage": "https://github.com/axllent/silverstripe-meta-editor",
-	"keywords": ["silverstripe", "seo", "editing", "metatitle", "metadescription"],
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Ralph Slooten",
-			"homepage": "http://www.axllent.org/"
-		}
-	],
-	"support": {
-		"issues": "https://github.com/axllent/silverstripe-meta-editor/issues"
-	},
-	"require": {
-        "silverstripe/vendor-plugin": "^1.0",
-		"silverstripe/framework": "^4.0"
-	},
+    "name": "axllent/silverstripe-meta-editor",
+    "description": "Meta Editor for Silverstripe",
+    "type": "silverstripe-vendormodule",
+    "homepage": "https://github.com/axllent/silverstripe-meta-editor",
+    "keywords": [
+        "silverstripe",
+        "seo",
+        "editing",
+        "metatitle",
+        "metadescription"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ralph Slooten",
+            "homepage": "http://www.axllent.org/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/axllent/silverstripe-meta-editor/issues"
+    },
+    "require": {
+        "silverstripe/vendor-plugin": "^1.0 || ^2.0",
+        "silverstripe/framework": "^4.0 || ^5.0"
+    },
     "extra": {
         "expose": [
             "css",
