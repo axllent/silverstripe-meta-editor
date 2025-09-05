@@ -3,8 +3,8 @@
 namespace Axllent\MetaEditor\Forms\GridField;
 
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
+use SilverStripe\Model\ArrayData;
 use SilverStripe\ORM\FieldType\DBField;
-use SilverStripe\View\ArrayData;
 use SilverStripe\View\HTML;
 use SilverStripe\View\SSViewer;
 
@@ -39,14 +39,12 @@ class GridFieldLevelup implements GridField_HTMLProvider
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get HTML Fragment
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      *
      * @return null|array
      */
@@ -63,11 +61,21 @@ class GridFieldLevelup implements GridField_HTMLProvider
 
         $linkTag = HTML::createTag('a', $attrs, $this->content);
 
-        $forTemplate = ArrayData::create(
-            [
-                'UpLink' => DBField::create_field('HTMLFragment', $linkTag),
-            ]
-        );
+        if (class_exists('\SilverStripe\View\ArrayData')) {
+            // Silverstripe <= 5
+            $forTemplate = \SilverStripe\View\ArrayData::create(
+                [
+                    'UpLink' => DBField::create_field('HTMLFragment', $linkTag),
+                ]
+            );
+        } else {
+            // Silverstripe 6
+            $forTemplate = ArrayData::create(
+                [
+                    'UpLink' => DBField::create_field('HTMLFragment', $linkTag),
+                ]
+            );
+        }
 
         $template = SSViewer::get_templates_by_class($this, '', __CLASS__);
 

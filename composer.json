@@ -14,15 +14,15 @@
     "authors": [
         {
             "name": "Ralph Slooten",
-            "homepage": "http://www.axllent.org/"
+            "homepage": "https://www.axllent.org/"
         }
     ],
     "support": {
         "issues": "https://github.com/axllent/silverstripe-meta-editor/issues"
     },
     "require": {
-        "silverstripe/vendor-plugin": "^1.0 || ^2.0",
-        "silverstripe/framework": "^4.0 || ^5.0"
+        "silverstripe/vendor-plugin": "^1.0 || ^2.0 || ^3.0",
+        "silverstripe/framework": "^4.0 || ^5.0 || ^6.0"
     },
     "extra": {
         "expose": [
