@@ -6,10 +6,9 @@ for pages within a customised ModelAdmin interface.
 Values are updated directly via Ajax, and provide handy warnings about value length and duplicates.
 
 This module is a complete rebuild of [axllent/silverstripe-seo-editor](https://github.com/axllent/silverstripe-seo-editor)
-for Silverstripe 4 & 5.
+for Silverstripe 4, 5 & 6.
 
 ![Silverstripe Meta Editor](images/Screenshot.png "Silverstripe Meta Editor")
-
 
 ## Features
 
@@ -22,16 +21,13 @@ for Silverstripe 4 & 5.
 - Set hidden pages (eg: ErrorPage)
 - Works transparently with [Fluent](https://github.com/tractorcow-farm/silverstripe-fluent) (optional)
 
-
 ## Requirements
 
-- Silverstripe ^4 || ^5
-
+- Silverstripe ^4 || ^5 || ^6
 
 ## Configuration
 
 Please refer to the [Configuration docs](docs/en/Configuration.md).
-
 
 ## Installation
 
