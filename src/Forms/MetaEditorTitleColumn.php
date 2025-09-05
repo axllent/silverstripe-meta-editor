@@ -27,19 +27,17 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     /**
      * Augment Columns
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      * @param array     $columns   Columns
      *
      * @return null
      */
-    public function augmentColumns($gridField, &$columns)
-    {
-    }
+    public function augmentColumns($gridField, &$columns) {}
 
     /**
      * GetColumnsHandled
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      *
      * @return array
      */
@@ -51,7 +49,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     /**
      * GetColumnMetaData
      *
-     * @param GridField $gridField  Gridfield
+     * @param GridField $gridField  GridField
      * @param string    $columnName Column name
      *
      * @return array
@@ -66,7 +64,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     /**
      * Get column attributes
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -92,7 +90,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
      *
      * @param DataObject $record DataObject
      *
-     * @return string
+     * @return array
      */
     public static function getErrors($record)
     {
@@ -126,7 +124,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     /**
      * Get column content
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -134,7 +132,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ('MetaEditorTitleColumn' == $columnName) {
+        if ($columnName == 'MetaEditorTitleColumn') {
             $value = $gridField->getDataFieldValue(
                 $record,
                 Config::inst()->get(MetaEditor::class, 'meta_title_field')
@@ -162,7 +160,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
      * Get field name
      *
      * @param string     $name      Name
-     * @param GridField  $gridField Gridfield
+     * @param GridField  $gridField GridField
      * @param DataObject $record    Record
      *
      * @return string
@@ -180,7 +178,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     /**
      * Get HTML Fragment
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      *
      * @return GridField
      */
@@ -192,7 +190,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     /**
      * Get URL handlers
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      *
      * @return array
      */
@@ -206,7 +204,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     /**
      * Handle Action
      *
-     * @param GridField   $gridField Gridfield
+     * @param GridField   $gridField GridField
      * @param HTTPRequest $request   HTTP request
      *
      * @return HTTPResponse
@@ -238,9 +236,9 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
 
             $errors = [];
 
-            $identifier = $fluent ?
-            "RecordID = {$page->ID} AND Locale = '{$locale}'" :
-            "ID = {$page->ID}";
+            $identifier = $fluent
+            ? "RecordID = {$page->ID} AND Locale = '{$locale}'"
+            : "ID = {$page->ID}";
 
             foreach ($params as $fieldName => $val) {
                 $val = trim(preg_replace('/\s+/', ' ', $val));
@@ -251,7 +249,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
                 }
 
                 // Make sure the MenuTitle remains unchanged if NULL!
-                if ('MetaTitle' == $fieldName) {
+                if ($fieldName == 'MetaTitle') {
                     if (!$val) {
                         throw new HTTPResponse_Exception(
                             $title_field . ' cannot be blank',
@@ -315,7 +313,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
                         ['errors' => $errors]
                     );
                 }
-                if ('MetaDescription' == $fieldName) {
+                if ($fieldName == 'MetaDescription') {
                     // Update MetaDescription
                     DB::query(
                         "UPDATE {$sitetree} SET {$description_field} = {$sqlValue}
@@ -349,7 +347,7 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
     }
 
     /**
-     * Ajac response
+     * Ajax response
      *
      * @param string $message Message
      * @param array  $data    Array
@@ -416,30 +414,30 @@ class MetaEditorTitleColumn extends GridFieldDataColumns implements GridField_Co
         $title_min = Config::inst()->get(MetaEditor::class, 'meta_title_min_length');
         $title_max = Config::inst()->get(MetaEditor::class, 'meta_title_max_length');
 
-        return '<div class="meta-editor-errors">' .
-            '<span class="meta-editor-message meta-editor-message-too-short">' .
-            _t(
+        return '<div class="meta-editor-errors">'
+            . '<span class="meta-editor-message meta-editor-message-too-short">'
+            . _t(
                 self::class . '.TITLE_TOO_SHORT',
                 'Too short: should be between {title_min} &amp; {title_max} characters.',
                 [
                     'title_min' => $title_min,
                     'title_max' => $title_max,
                 ]
-            ) . '</span>' .
-            '<span class="meta-editor-message meta-editor-message-too-long">' .
-            _t(
+            ) . '</span>'
+            . '<span class="meta-editor-message meta-editor-message-too-long">'
+            . _t(
                 self::class . '.TITLE_TOO_LONG',
                 'Too long: should be between {title_min} &amp; {title_max} characters.',
                 [
                     'title_min' => $title_min,
                     'title_max' => $title_max,
                 ]
-            ) . '</span>' .
-            '<span class="meta-editor-message meta-editor-message-duplicate">' .
-            _t(
+            ) . '</span>'
+            . '<span class="meta-editor-message meta-editor-message-duplicate">'
+            . _t(
                 self::class . '.TITLE_DUPLICATE',
                 'This title is a duplicate of another page.'
-            ) . '</span>' .
-            '</div>';
+            ) . '</span>'
+            . '</div>';
     }
 }

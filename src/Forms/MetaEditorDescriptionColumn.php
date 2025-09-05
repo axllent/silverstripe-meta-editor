@@ -12,19 +12,17 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
     /**
      * Augment Columns
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      * @param array     $columns   Columns
      *
      * @return null
      */
-    public function augmentColumns($gridField, &$columns)
-    {
-    }
+    public function augmentColumns($gridField, &$columns) {}
 
     /**
      * GetColumnsHandled
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      *
      * @return array
      */
@@ -38,7 +36,7 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
     /**
      * GetColumnMetaData
      *
-     * @param GridField $gridField  Gridfield
+     * @param GridField $gridField  GridField
      * @param string    $columnName Column name
      *
      * @return array
@@ -53,7 +51,7 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
     /**
      * Get column attributes
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -123,7 +121,7 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
     /**
      * Get column content
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -131,7 +129,7 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ('MetaEditorDescriptionColumn' == $columnName) {
+        if ($columnName == 'MetaEditorDescriptionColumn') {
             $value = $gridField->getDataFieldValue(
                 $record,
                 Config::inst()->get(MetaEditor::class, 'meta_description_field')
@@ -170,30 +168,30 @@ class MetaEditorDescriptionColumn extends MetaEditorTitleColumn
             'meta_description_max_length'
         );
 
-        return '<div class="meta-editor-errors">' .
-            '<span class="meta-editor-message meta-editor-message-too-short">' .
-            _t(
+        return '<div class="meta-editor-errors">'
+            . '<span class="meta-editor-message meta-editor-message-too-short">'
+            . _t(
                 self::class . '.DESCRIPTION_TOO_SHORT',
                 'Too short: should be between {description_min} &amp; {description_max} characters.',
                 [
                     'description_min' => $description_min,
                     'description_max' => $description_max,
                 ]
-            ) . '</span>' .
-            '<span class="meta-editor-message meta-editor-message-too-long">' .
-            _t(
+            ) . '</span>'
+            . '<span class="meta-editor-message meta-editor-message-too-long">'
+            . _t(
                 self::class . '.DESCRIPTION_TOO_LONG',
                 'Too long: should be between {description_min} &amp; {description_max} characters.',
                 [
                     'description_min' => $description_min,
                     'description_max' => $description_max,
                 ]
-            ) . '</span>' .
-            '<span class="meta-editor-message meta-editor-message-duplicate">' .
-            _t(
+            ) . '</span>'
+            . '<span class="meta-editor-message meta-editor-message-duplicate">'
+            . _t(
                 self::class . '.DESCRIPTION_DUPLICATE',
                 'This description is a duplicate of another page.'
-            ) . '</span>' .
-            '</div>';
+            ) . '</span>'
+            . '</div>';
     }
 }

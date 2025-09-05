@@ -9,19 +9,17 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
     /**
      * Augment Columns
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      * @param array     $columns   Columns
      *
      * @return null
      */
-    public function augmentColumns($gridField, &$columns)
-    {
-    }
+    public function augmentColumns($gridField, &$columns) {}
 
     /**
      * GetColumnsHandled
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      *
      * @return array
      */
@@ -33,7 +31,7 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
     /**
      * GetColumnMetaData
      *
-     * @param GridField $gridField  Gridfield
+     * @param GridField $gridField  GridField
      * @param string    $columnName Column name
      *
      * @return array
@@ -52,7 +50,7 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
     /**
      * Get column attributes
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -66,7 +64,7 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
     /**
      * Get column content
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -74,12 +72,12 @@ class MetaEditorPageLinkColumn implements GridField_ColumnProvider
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ('MetaEditorPageLinkColumn' == $columnName) {
+        if ($columnName == 'MetaEditorPageLinkColumn') {
             $link      = $record->Link();
             $edit_link = $record->CMSEditLink();
 
-            return '<a href="' . $link . '?stage=Stage" target="_blank" class="btn btn-secondary no-text font-icon-eye" title="View page"></a><br />' .
-                '<a href="' . $edit_link . '" class="btn btn-secondary no-text font-icon-edit" title="Edit page"></a>';
+            return '<a href="' . $link . '?stage=Stage" target="_blank" class="btn btn-secondary no-text font-icon-eye" title="View page"></a><br />'
+                . '<a href="' . $edit_link . '" class="btn btn-secondary no-text font-icon-edit" title="Edit page"></a>';
         }
     }
 }

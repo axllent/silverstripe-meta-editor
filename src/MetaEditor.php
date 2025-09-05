@@ -1,4 +1,5 @@
 <?php
+
 namespace Axllent\MetaEditor;
 
 use Axllent\MetaEditor\Forms\GridField\GridFieldLevelup;
@@ -10,6 +11,8 @@ use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\GridField\GridField_ActionMenu;
+use SilverStripe\Forms\GridField\GridField_ActionMenuItem;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
@@ -17,15 +20,12 @@ use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
-use SilverStripe\Forms\GridField\GridField_ActionMenu;
-use SilverStripe\Forms\GridField\GridField_ActionMenuItem;
 use SilverStripe\View\Requirements;
 use TractorCow\Fluent\Extension\FluentSiteTreeExtension;
 use TractorCow\Fluent\Model\Locale;
 
 class MetaEditor extends ModelAdmin
 {
-
     /**
      * Meta title field
      *
@@ -74,8 +74,8 @@ class MetaEditor extends ModelAdmin
      * @config array
      */
     private static $non_editable_page_types = [
-        'SilverStripe\\CMS\\Model\\RedirectorPage',
-        'SilverStripe\\CMS\\Model\\VirtualPage',
+        'SilverStripe\CMS\Model\RedirectorPage',
+        'SilverStripe\CMS\Model\VirtualPage',
     ];
 
     /**
@@ -85,7 +85,7 @@ class MetaEditor extends ModelAdmin
      * @config array
      */
     private static $hidden_page_types = [
-        'SilverStripe\\ErrorPage\\ErrorPage',
+        'SilverStripe\ErrorPage\ErrorPage',
     ];
 
     /**
@@ -221,7 +221,7 @@ class MetaEditor extends ModelAdmin
             $search_filter = true;
             $list          = $list->filterAny(
                 [
-                    'MenuTitle' . ':PartialMatch'                   => $search,
+                    'MenuTitle:PartialMatch'                        => $search,
                     $conf->meta_title_field . ':PartialMatch'       => $search,
                     $conf->meta_description_field . ':PartialMatch' => $search,
                 ]
@@ -268,7 +268,7 @@ class MetaEditor extends ModelAdmin
             ->hasExtension(FluentSiteTreeExtension::class) && Locale::get()->count();
 
         if ($fluent) {
-            $list = $list->filterbyCallBack(
+            $list = $list->filterByCallBack(
                 function ($page) {
                     return $page->existsInLocale();
                 }

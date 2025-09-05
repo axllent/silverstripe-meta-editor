@@ -1,4 +1,5 @@
 <?php
+
 namespace Axllent\MetaEditor\Lib;
 
 use Axllent\MetaEditor\MetaEditor;
@@ -37,14 +38,14 @@ class MetaEditorPermissions
 
                 self::$non_editable_page_types = array_merge(
                     array_keys($subclasses),
-                    self::$non_editable_page_types
+                    self::$non_editable_page_types,
                 );
             }
         }
 
         return !in_array(
             strtolower($page->ClassName),
-            self::$non_editable_page_types
+            self::$non_editable_page_types,
         );
     }
 }

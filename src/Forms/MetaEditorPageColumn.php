@@ -9,19 +9,17 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
     /**
      * Augment Columns
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      * @param array     $columns   Columns
      *
      * @return null
      */
-    public function augmentColumns($gridField, &$columns)
-    {
-    }
+    public function augmentColumns($gridField, &$columns) {}
 
     /**
      * GetColumnsHandled
      *
-     * @param GridField $gridField Gridfield
+     * @param GridField $gridField GridField
      *
      * @return array
      */
@@ -33,7 +31,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
     /**
      * GetColumnMetaData
      *
-     * @param GridField $gridField  Gridfield
+     * @param GridField $gridField  GridField
      * @param string    $columnName Column name
      *
      * @return array
@@ -52,7 +50,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
     /**
      * Get column attributes
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -66,7 +64,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
     /**
      * Get column content
      *
-     * @param GridField  $gridField  Gridfield
+     * @param GridField  $gridField  GridField
      * @param DataObject $record     Record
      * @param string     $columnName Column name
      *
@@ -74,7 +72,7 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
      */
     public function getColumnContent($gridField, $record, $columnName)
     {
-        if ('MetaEditorPageColumn' == $columnName) {
+        if ($columnName == 'MetaEditorPageColumn') {
             $children = MetaEditorTitleColumn::getAllEditableRecords()
                 ->filter('ParentID', $record->ID);
 
@@ -84,8 +82,8 @@ class MetaEditorPageColumn implements GridField_ColumnProvider
             } else {
                 $output = '<p><b>' . htmlspecialchars($record->MenuTitle) . '</b></p>';
             }
-            $output .= '<p><a href="' . $record->Link() . '?stage=Stage" class="btn btn-secondary" target="_blank">/' .
-            ltrim($record->RelativeLink(), '/') . '</a></p>';
+            $output .= '<p><a href="' . $record->Link() . '?stage=Stage" class="btn btn-secondary" target="_blank">/'
+            . ltrim($record->RelativeLink(), '/') . '</a></p>';
 
             return $output;
         }
